@@ -11,11 +11,11 @@ router.get( '/', (req, res ) => {
     res.sendFile( __dirname + '/index.html' );
 });
 
-/*
+
 // Handle requests for file assets
 app.use( '/', router );
 app.use(express.static('.'));
-*/
+
 
 // Start server
 app.listen( 8080, () => {
