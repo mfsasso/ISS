@@ -14,12 +14,29 @@
 	</head>
 	
 	<body>
-	    <div>
+
+	    <div id="trackingdata">
 		No data yet
 	    </div>
+
 	    <script>
 		(function() {
-		    var socket = io();
+
+		    console.log( $('#trackingdata').html().trim() );
+
+		    const socket = io();
+
+		    socket.on( 'tracking data', function(val) {
+			let currentData = $('#trackingdata').html().trim();
+			if( currentData == 'No data yet' ) {
+			    currentData = val;
+			}
+			else {
+			    currentData += '<br>' + val;
+			}
+			$('#trackingdata').html(currentData);
+		    });
+
 		})();
 	    </script>
 	</body>

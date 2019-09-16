@@ -2,12 +2,13 @@
  * Server code for ISS Server
  */
 
-var express = require( 'express' );
-var app = express();
-var router = express.Router();
+const express = require( 'express' );
+const app = express();
+const router = express.Router();
 
-var http = require( 'http' ).Server(app);
-var io = require( 'socket.io' )(http);
+const http = require( 'http' ).Server(app);
+const io = require( 'socket.io' )(http);
+
 
 // HTTP Get request. Send HTML for the page.
 router.get( '/', (req, res ) => {
@@ -19,10 +20,18 @@ router.get( '/', (req, res ) => {
 app.use( '/', router );
 app.use(express.static('.'));
 
+
 // Socket.io connection
 io.on( 'connection', socket => {
     console.log( 'New WebSocket connection established' )
 });
+
+
+// Talk over socket
+setInterval( function() {
+    let rand = Math.random() * 1000;
+    io.emit( 'tracking data', rand.toString() );
+}, 3000);
 
 
 // Start server
