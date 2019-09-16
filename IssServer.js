@@ -6,6 +6,9 @@ var express = require( 'express' );
 var app = express();
 var router = express.Router();
 
+var http = require( 'http' ).Server(app);
+var io = require( 'socket.io' )(http);
+
 // HTTP Get request. Send HTML for the page.
 router.get( '/', (req, res ) => {
     res.sendFile( __dirname + '/index.html' );
@@ -16,9 +19,14 @@ router.get( '/', (req, res ) => {
 app.use( '/', router );
 app.use(express.static('.'));
 
+// Socket.io connection
+io.on( 'connection', socket => {
+    console.log( 'New WebSocket connection established' )
+});
+
 
 // Start server
-app.listen( 8080, () => {
+http.listen( 8080, () => {
     console.log( 'Server running on port 8080' );
 });
 
