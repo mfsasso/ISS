@@ -1,16 +1,21 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	    <!-- Required meta tags -->
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 				
-		<title>International Space Station Tracking</title>
+	    <title>International Space Station Tracking</title>
 
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		
+	    <script src="/socket.io/socket.io.js"></script>
+	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+	    <script>
+                var arr = [];
+                const maxSize = 30;
+            </script>
+
 	</head>
 	
 	<body>
@@ -22,19 +27,14 @@
 	    <script>
 		(function() {
 
-		    console.log( $('#trackingdata').html().trim() );
-
 		    const socket = io();
 
 		    socket.on( 'tracking data', function(val) {
-			let currentData = $('#trackingdata').html().trim();
-			if( currentData == 'No data yet' ) {
-			    currentData = val;
+			arr.push(val);
+			if( arr.length > maxSize ) {
+			    arr.shift();
 			}
-			else {
-			    currentData += '<br>' + val;
-			}
-			$('#trackingdata').html(currentData);
+			$('#trackingdata').html(arr.join('<br>'));
 		    });
 
 		})();
